@@ -9,5 +9,6 @@ prisma.user.create({
   data: {
     name: 'Diego Fernandes',
     email: 'diego@rocketseat.com.br',
+    password_hash: 'hashed_password',
   },
 })
