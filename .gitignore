@@ -17,6 +17,9 @@ yarn-error.log*
 # Fastify
 .fastify/
 
+# Vitest
+coverage/
+
 # SQLite
 *.sqlite
 *.sqlite3
