@@ -83,4 +83,24 @@ describe('Check In Use Case', () => {
       }),
     ).resolves.toBeTruthy()
   })
+
+  it('should not be able to check in on distant gym', async () => {
+    gymsRepository.items.push({
+      id: 'gym-02',
+      title: 'Typescript Gym',
+      description: 'Academia de musculação',
+      latitude: new Prisma.Decimal(-27.0747279),
+      longitude: new Prisma.Decimal(-49.4889672),
+      phone: '123456789',
+    })
+
+    await expect(
+      sut.execute({
+        userId: 'user-01',
+        gymId: 'gym-02',
+        userLatitude: -27.2892052,
+        userLongitude: -49.6401091,
+      }),
+    ).rejects.toBeInstanceOf(Error)
+  })
 })
