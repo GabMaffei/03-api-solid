@@ -37,4 +37,16 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     )
     return checkIn || null
   }
+
+  async findManyByUserId(userId: string, page: number = 1) {
+    const maxItemsPerPage = 20
+
+    return this.items
+      .filter((item) => item.user_id === userId)
+      .slice((page - 1) * maxItemsPerPage, page * maxItemsPerPage)
+  }
+
+  async countByUserId(userId: string) {
+    return this.items.filter((item) => item.user_id === userId).length
+  }
 }
