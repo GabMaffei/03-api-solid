@@ -53,7 +53,7 @@ describe('Search Gyms Use Case', () => {
       page: 2,
     })
 
-    console.log(gyms)
+    // console.log(gyms)
 
     expect(gyms).toHaveLength(2)
     expect(gyms).toEqual([

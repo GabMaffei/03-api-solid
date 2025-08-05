@@ -2,6 +2,7 @@ import { CheckIn, Prisma } from 'generated/prisma'
 import { CheckInsRepository } from '../check-ins-repository'
 import { randomUUID } from 'node:crypto'
 import dayjs from 'dayjs'
+import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found'
 
 export class InMemoryCheckInsRepository implements CheckInsRepository {
   public items: CheckIn[] = []
@@ -48,5 +49,16 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
 
   async countByUserId(userId: string) {
     return this.items.filter((item) => item.user_id === userId).length
+  }
+
+  async save(checkIn: CheckIn) {
+    const index = this.items.findIndex((item) => item.id === checkIn.id)
+
+    if (index >= 0) {
+      this.items[index] = checkIn
+      return checkIn
+    }
+
+    throw new ResourceNotFoundError('Check-in not found')
   }
 }
