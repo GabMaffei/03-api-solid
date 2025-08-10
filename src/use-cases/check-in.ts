@@ -46,7 +46,7 @@ export class CheckInUseCase {
       },
     )
 
-    const maxDistance = 100 // Maximum distance in meters for check-in
+    const maxDistance = 0.1 // Maximum distance in kilometers for check-in
 
     if (distance > maxDistance) {
       throw new MaxDistanceError('User is too far from the gym to check in')

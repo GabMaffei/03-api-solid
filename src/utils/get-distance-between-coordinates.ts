@@ -7,7 +7,7 @@ export function getDistanceBetweenCoordinate(
   from: Coordinate,
   to: Coordinate,
 ): number {
-  const R = 6371e3 // metres
+  const R = 6371 // km
   const φ1 = (from.latitude * Math.PI) / 180
   const φ2 = (to.latitude * Math.PI) / 180
   const Δφ = ((to.latitude - from.latitude) * Math.PI) / 180
@@ -18,5 +18,5 @@ export function getDistanceBetweenCoordinate(
     Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
-  return R * c // in metres
+  return R * c // em quilômetros
 }
