@@ -28,7 +28,7 @@ describe('Validate Check-In (e2e)', () => {
       },
     })
 
-    const checkIn = await prisma.checkIn.create({
+    let checkIn = await prisma.checkIn.create({
       data: {
         gym_id: gym.id,
         user_id: user.id,
@@ -41,5 +41,13 @@ describe('Validate Check-In (e2e)', () => {
       .send()
 
     expect(checkInResponse.statusCode).toEqual(204)
+
+    checkIn = await prisma.checkIn.findUniqueOrThrow({
+      where: {
+        id: checkIn.id,
+      },
+    })
+
+    expect(checkIn.validated_at).toEqual(expect.any(Date))
   })
 })
