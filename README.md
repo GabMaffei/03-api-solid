@@ -44,3 +44,20 @@ The example environment file contains local development defaults. Replace the JW
 ## Project status
 
 This is an educational project, not a deployed service. The repository includes unit and end-to-end tests; end-to-end execution requires a configured PostgreSQL instance.
+
+## Source guide
+
+| Source | What to inspect |
+| --- | --- |
+| [Authentication boundary](src/http/middlewares/verify-jwt.ts) | JWT verification before protected routes. |
+| [Check-in use case](src/use-cases/check-in.ts) | Distance and same-day check-in rules. |
+| [Validation use case](src/use-cases/validate-check-in.ts) | Time window for validating a check-in. |
+| [Repository contract](src/repositories/check-ins-repository.ts) | Persistence abstraction used by the application layer. |
+| [Test repository](src/repositories/in-memory/in-memory-check-ins-repository.ts) | In-memory implementation used by use-case tests. |
+| [Business-rule tests](src/use-cases/check-in.spec.ts) | Examples covering the check-in use case. |
+
+## Architecture reading order
+
+Follow a request from the HTTP boundary into a use case and then its repository interface. Compare the in-memory repository used in tests with the Prisma implementation to see how persistence is separated from business rules.
+
+The unit tests and end-to-end tests exercise different boundaries: use-case tests can use in-memory repositories, while HTTP/end-to-end workflows need the configured database environment. The presence of test files does not indicate a test run or passing result for this documentation change.
