@@ -1,32 +1,46 @@
-# App
+# Gym Check-in API
 
-GymPass style app.
+A guided Node.js and TypeScript API exercise for a gym discovery and check-in service. The implementation applies a layered structure with HTTP controllers, use cases, repository interfaces, and Prisma-backed persistence.
 
-## RFs (Requisitos funcionais)
+## Features
 
-[X] Deve ser possível se cadastrar;
-[X] Deve ser possível se autenticar;
-[X] Deve ser possível obter o pergil de usuário logado;
-[X] Deve ser possível obter o número de check-ins realizados pelo usuário logado;
-[X] Deve ser possível o usuário obter seu histórico de check-ins;
-[X] Deve ser possível o usuário buscar academias próximas (até 10km);
-[X] Deve ser possível o usuário buscar academias pelo nome;
-[X] Deve ser possível o usuário realizar check-in em uma academia;
-[X] Deve ser possível validar o check-in de um usuário;
-[X] Deve ser possível cadastrar uma academia;
+- Register users and authenticate with JWTs; refresh tokens are stored in an HTTP cookie.
+- Read the authenticated user's profile.
+- Create and search gyms, including nearby-gym queries.
+- Create check-ins, view paginated history, and read check-in metrics.
+- Enforce one check-in per user per day and a 100-meter distance limit.
+- Validate check-ins within 20 minutes; gym creation requires the `ADMIN` role.
+- Hash account passwords with bcrypt.
 
-## RN (Regras de negócio)
+The API includes user, gym, and check-in routes. It uses PostgreSQL with Prisma migrations and includes unit and end-to-end test scripts.
 
-[X] O usuário não deve poder se cadastrar com um e-mail duplicado;
-[X] O usuário não pode fazer 2 check-ins no mesmo dia;
-[X] O usuário não pode fazer o check-in se não estiver perto (100m) da academia;
-[X] O check-in só pode ser validado até 20 minutos após criado;
-[ ] O check-in só pode ser validado por administradores;
-[ ] A academia só pode ser cadastrada por administradores; 
+## Technology
 
-## RNFs (Requisitos não-funcionais)
+Node.js, TypeScript, Fastify, Prisma ORM, PostgreSQL, Zod, JWT, cookies, bcrypt, Vitest, Supertest, and npm.
 
-[X] A senha do usuário precisa estar criptografada;
-[X] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
-[X] Todas listas de dados precisam estar paginadas com 20 itens por página;
-[ ] O usuário deve ser identificado por um JWT (JSON Web Token)
+## Run locally
+
+Create `.env` from `.env.example`, then set a private `JWT_SECRET` and a PostgreSQL `DATABASE_URL`. Start PostgreSQL with the included Compose file and run the Prisma migration and development server:
+
+```bash
+npm install
+cp .env.example .env
+docker compose up -d
+npx prisma migrate dev
+npm run start:dev
+```
+
+The API listens on port `3333` by default. `PORT` can be set in `.env`. The repository also provides `npm run build`, `npm start`, `npm test`, and `npm run test:e2e` scripts.
+
+## Environment variables
+
+- `NODE_ENV` (`dev`, `test`, or `prod`; defaults to `dev`)
+- `JWT_SECRET` (required; use a private value)
+- `PORT` (defaults to `3333`)
+- `DATABASE_URL` (PostgreSQL connection string)
+
+The example environment file contains local development defaults. Replace the JWT secret before using the API outside a local exercise and never commit credentials.
+
+## Project status
+
+This is an educational project, not a deployed service. The repository includes unit and end-to-end tests; end-to-end execution requires a configured PostgreSQL instance.
